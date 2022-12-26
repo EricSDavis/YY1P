@@ -1,26 +1,24 @@
 .PHONY: clean
 
 objects :=\
-	data/greeting.rds\
-	plots/example.pdf\
-	tables/example.txt
+	data/mergedLoops.rds
 
 all: $(objects)
 
 clean:
 	rm -rf $(objects)
 
-data/greeting.rds:\
-	scripts/utils/sayHello.R\
-	scripts/processing/makeGreeting.R
+data/mergedLoops.rds:\
+	data/raw/loops/KO_inter_30_5KbLoops.txt\
+	data/raw/loops/WT_inter_30_5KbLoops.txt\
+	data/raw/loops/YY1P_22RV1_KO_1_1_inter_30_5KbLoops.txt\
+	data/raw/loops/YY1P_22RV1_KO_1_2_inter_30_5KbLoops.txt\
+	data/raw/loops/YY1P_22RV1_KO_2_1_inter_30_5KbLoops.txt\
+	data/raw/loops/YY1P_22RV1_KO_2_2_inter_30_5KbLoops.txt\
+	data/raw/loops/YY1P_22RV1_WT_1_1_inter_30_5KbLoops.txt\
+	data/raw/loops/YY1P_22RV1_WT_1_2_inter_30_5KbLoops.txt\
+	data/raw/loops/YY1P_22RV1_WT_2_1_inter_30_5KbLoops.txt\
+	data/raw/loops/YY1P_22RV1_WT_2_2_inter_30_5KbLoops.txt\
+	scripts/processing/mergeLoops.R
 		mkdir -p data
-		Rscript scripts/processing/makeGreeting.R
-
-plots/example.pdf\
-tables/example.txt:\
-	scripts/utils/sayHello.R\
-	data/greeting.rds\
-	scripts/analysis/example.R
-		mkdir -p plots tables
-		Rscript scripts/analysis/example.R
-		
+		Rscript scripts/processing/mergeLoops.R 

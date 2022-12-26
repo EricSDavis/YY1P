@@ -11,3 +11,6 @@ from bio-rep combined Hi-C files with SIP:
 sh callLoopsBioreps.sh
 sh callLoopsGenotype.sh
 ```
+
+Loop calls are located in this directory on UNC's longleaf cluster:
+`/work/users/e/s/esdavis/YY1P/sip_loops`.
