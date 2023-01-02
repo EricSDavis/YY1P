@@ -4,7 +4,8 @@ objects :=\
 	data/mergedLoops.rds\
 	data/mergedLoopCounts.h5\
 	data/mergedLoopCounts.rds\
-	data/diffLoopCounts.rds
+	data/diffLoopCounts.rds\
+	plots/surveyDiffLoops.pdf
 
 all: $(objects)
 
@@ -49,3 +50,11 @@ data/diffLoopCounts.rds:\
 		mkdir -p data
 		Rscript scripts/analysis/differentialLoops.R
 
+plots/surveyDiffLoops.pdf:\
+	data/diffLoopCounts.rds\
+	data/mergedLoopCounts.h5\
+	data/raw/hic/condition/WT_inter_30.hic\
+	data/raw/hic/condition/KO_inter_30.hic\
+	scripts/analysis/surveyDiffLoops.R
+		mkdir -p plots
+		Rscript scripts/analysis/surveyDiffLoops.R
