@@ -55,6 +55,14 @@ plots/surveyDiffLoops.pdf:\
 	data/mergedLoopCounts.h5\
 	data/raw/hic/condition/WT_inter_30.hic\
 	data/raw/hic/condition/KO_inter_30.hic\
+	data/raw/signal/ATAC_seq_EV.bw\
+	data/raw/signal/ATAC_seq_YY1KD.bw\
+	data/raw/signal/Chip_seq_H3K27ac_.bw\
+	data/raw/signal/Chip_seq_INPUT.bw\
+	data/raw/signal/Chip_seq_YY1.bw\
+	data/raw/signal/RNA_seq_EV.bw\
+	data/raw/signal/RNA_seq_YY1KD.bw\
+	scripts/utils/customMultiPlot.R\
 	scripts/analysis/surveyDiffLoops.R
 		mkdir -p plots
 		Rscript scripts/analysis/surveyDiffLoops.R

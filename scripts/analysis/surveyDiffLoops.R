@@ -4,6 +4,9 @@ library(plotgardener)
 library(InteractionSet, include.only = "interactions")
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 
+## Source utility functions
+source("scripts/utils/customMultiPlot.R")
+
 ## Load loops with differential info &
 ## update path to count data
 loops <- readRDS("data/diffLoopCounts.rds")
@@ -13,6 +16,25 @@ path(assay(loops)) <- "data/mergedLoopCounts.h5"
 indices <- which(rowData(loops)$padj <= 0.05 &
     abs(rowData(loops)$log2FoldChange) > 0)
 
+## Define paths to signal track files
+atacFiles <- list.files(
+    path = "data/raw/signal",
+    pattern = "ATAC.*.bw",
+    full.names = TRUE
+)
+
+chipFiles <- list.files(
+    path = "data/raw/signal",
+    pattern = "Chip.*.bw",
+    full.names = TRUE
+)
+
+rnaFiles <- list.files(
+    path = "data/raw/signal",
+    pattern = "RNA.*.bw",
+    full.names = TRUE
+)
+
 
 
 ## Visualization ------------------------------------
@@ -21,7 +43,7 @@ indices <- which(rowData(loops)$padj <= 0.05 &
 stopifnot(all(seqnames1(loops[indices]) ==
     seqnames2(loops[indices])))
 
-pdf(file = "plots/surveyDiffLoops.pdf", width = 4, height = 5)
+pdf(file = "plots/surveyDiffLoops.pdf", width = 3.75, height = 7.25)
 for (i in seq_along(indices)) {
     ## Subset for loop
     loop <- loops[indices][i]
@@ -50,7 +72,7 @@ for (i in seq_along(indices)) {
     )
 
     ## Create page
-    pageCreate(width = 4, height = 5, showGuides = FALSE)
+    pageCreate(width = 4, height = 7.5, showGuides = FALSE)
 
     ## Plot Hi-C
     upper <-
@@ -92,10 +114,45 @@ for (i in seq_along(indices)) {
         just = c("right", "bottom")
     )
 
+    ## Plot signal tracks
+    ## (ATAC)
+    customMultiPlot(
+        fn = atacFiles,
+        p = p,
+        y = "0.1b",
+        labs = gsub(".*seq_(.*).bw", "ATAC \\1", atacFiles),
+        cols = "forestgreen"
+    )
+
+    ## (ChIP - separate scales for H3K27ac & YY1)
+    customMultiPlot(
+        fn = chipFiles[1:2],
+        p = p,
+        y = "0.2b",
+        labs = gsub(".*seq_(.*).bw", "ChIP \\1", chipFiles[1:2]),
+        cols = "steelblue"
+    )
+    customMultiPlot(
+        fn = chipFiles[3],
+        p = p,
+        y = "0.1b",
+        labs = gsub(".*seq_(.*).bw", "ChIP \\1", chipFiles[3]),
+        cols = "steelblue"
+    )
+
+    # (RNA)
+    customMultiPlot(
+        fn = rnaFiles,
+        p = p,
+        y = "0.2b",
+        labs = gsub(".*seq_(.*).bw", "RNA \\1", rnaFiles),
+        cols = "orange"
+    )
+
     ## Plot genes
     plotGenes(
         params = p,
-        y = p$y + p$height + p$space,
+        y = "0.2b",
         height = p$gh
     )
 
@@ -103,7 +160,7 @@ for (i in seq_along(indices)) {
     annoGenomeLabel(
         params = p,
         plot = upper,
-        y = p$y + p$height + p$gh + p$space,
+        y = "0.2b",
     )
 }
 dev.off()
