@@ -43,8 +43,9 @@ rnaFiles <- list.files(
 stopifnot(all(seqnames1(loops[indices]) ==
     seqnames2(loops[indices])))
 
-pdf(file = "plots/surveyDiffLoops.pdf", width = 3.75, height = 7.25)
-for (i in seq_along(indices)) {
+pdf(file = "plots/temp.pdf", width = 3.75, height = 7.25)
+# for (i in seq_along(indices)) {
+    i = 11
     ## Subset for loop
     loop <- loops[indices][i]
 
@@ -162,5 +163,5 @@ for (i in seq_along(indices)) {
         plot = upper,
         y = "0.2b",
     )
-}
+# }
 dev.off()
