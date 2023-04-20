@@ -3,6 +3,7 @@ library(SummarizedExperiment)
 library(plotgardener)
 library(InteractionSet, include.only = "interactions")
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+library(mariner)
 
 ## Source utility functions
 source("scripts/utils/customMultiPlot.R")
@@ -36,6 +37,11 @@ rnaFiles <- list.files(
     full.names = TRUE
 )
 
+ctcfFiles <- list.files(
+  path = "data/raw/signal",
+  pattern = "CTCF.*.bigWig",
+  full.names = TRUE
+)
 
 
 ## Visualization ------------------------------------
@@ -44,8 +50,9 @@ rnaFiles <- list.files(
 stopifnot(all(seqnames1(loops[indices]) ==
     seqnames2(loops[indices])))
 
-pdf(file = "plots/surveyDiffLoops.pdf", width = 3.75, height = 7.25)
+pdf(file = "plots/surveyDiffLoops.pdf", width = 3.75, height = 7.55)
 for (i in seq_along(indices)) {
+    
     ## Subset for loop
     loop <- loops[indices][i]
 
@@ -73,7 +80,7 @@ for (i in seq_along(indices)) {
     )
 
     ## Create page
-    pageCreate(width = 4, height = 7.5, showGuides = FALSE)
+    pageCreate(width = 4, height = 7.75, showGuides = FALSE)
 
     ## Plot Hi-C
     upper <-
@@ -125,7 +132,7 @@ for (i in seq_along(indices)) {
         cols = "forestgreen"
     )
 
-    ## (ChIP - separate scales for H3K27ac & YY1)
+    ## (ChIP - separate scales for H3K27ac & YY1 & CTCF)
     customMultiPlot(
         fn = chipFiles[1:2],
         p = p,
@@ -140,7 +147,14 @@ for (i in seq_along(indices)) {
         labs = gsub(".*seq_(.*).bw", "ChIP \\1", chipFiles[3]),
         cols = "steelblue"
     )
-
+    customMultiPlot(
+      fn = ctcfFiles,
+      p = p,
+      y = "0.1b",
+      labs = gsub(".*signal/(.*)_Ch.*", "ChIP \\1", ctcfFiles),
+      cols = "steelblue"
+    )
+    
     # (RNA)
     customMultiPlot(
         fn = rnaFiles,
