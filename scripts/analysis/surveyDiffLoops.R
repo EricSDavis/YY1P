@@ -13,8 +13,9 @@ loops <- readRDS("data/diffLoopCounts.rds")
 path(assay(loops)) <- "data/mergedLoopCounts.h5"
 
 ## Identify indices differential loops
+## Note: increasing fold-change from 0 to 1.5
 indices <- which(rowData(loops)$padj <= 0.05 &
-    abs(rowData(loops)$log2FoldChange) > 0)
+    abs(rowData(loops)$log2FoldChange) > 1.5)
 
 ## Define paths to signal track files
 atacFiles <- list.files(

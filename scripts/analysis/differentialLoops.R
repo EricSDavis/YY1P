@@ -16,21 +16,21 @@ coldata <- colData(loopCounts)$fileNames |>
     {
         \(x) x[, 3:5]
     }() |> # subset
-    `colnames<-`(c("condition", "biorep", "techrep")) |>
+    `colnames<-`(c("genotype", "biorep", "techrep")) |>
     as.data.frame()
 coldata$replicate <- factor(rep(1:4, 2))
-coldata$condition <- factor(coldata$condition)
+coldata$genotype <- factor(coldata$genotype)
 
 ## Build DESeq dataset & run DESeq analysis
 dds <- DESeq2::DESeqDataSetFromMatrix(
     countData = mariner::counts(loopCounts),
     colData = coldata,
-    design = ~ replicate + condition
+    design = ~ replicate + genotype
 )
 dds <- DESeq(dds)
 
 ## Get shrunken results
-res <- lfcShrink(dds, coef = "condition_WT_vs_KO", type = "apeglm")
+res <- lfcShrink(dds, coef = "genotype_WT_vs_KO", type = "apeglm")
 
 ## Add to rowData of InteractionMatrix
 rowData(loopCounts) <- cbind(rowData(loopCounts), res)
