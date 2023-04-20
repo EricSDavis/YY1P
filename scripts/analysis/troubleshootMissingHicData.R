@@ -79,13 +79,13 @@ pdf(file = "plots/temp.pdf", width = 3.75, height = 7.25)
     upper <-
         plotHicSquare(
             params = p,
-            data = "data/raw/hic/condition/WT_inter_30.hic",
+            data = "data/raw/hic/genotype/YY1P_22RV1_WT_inter_30.hic",
             half = "top"
         )
     lower <-
         plotHicSquare(
             params = p,
-            data = "data/raw/hic/condition/KO_inter_30.hic",
+            data = "data/raw/hic/genotype/YY1P_22RV1_KO_inter_30.hic",
             half = "bottom"
         )
     annoHeatmapLegend(
