@@ -5,7 +5,8 @@ objects :=\
 	data/mergedLoopCounts.h5\
 	data/mergedLoopCounts.rds\
 	data/diffLoopCounts.rds\
-	plots/surveyDiffLoops.pdf
+	plots/surveyDiffLoops.pdf\
+	plots/hoxb13Locus.pdf
 
 all: $(objects)
 
@@ -66,3 +67,21 @@ plots/surveyDiffLoops.pdf:\
 	scripts/analysis/surveyDiffLoops.R
 		mkdir -p plots
 		Rscript scripts/analysis/surveyDiffLoops.R
+
+plots/hoxb13Locus.pdf:\
+	data/diffLoopCounts.rds\
+	data/mergedLoopCounts.h5\
+	data/raw/hic/genotype/YY1P_22RV1_WT_inter_30.hic\
+	data/raw/hic/genotype/YY1P_22RV1_KO_inter_30.hic\
+	data/raw/signal/ATAC_seq_EV.bw\
+	data/raw/signal/ATAC_seq_YY1KD.bw\
+	data/raw/signal/Chip_seq_H3K27ac_.bw\
+	data/raw/signal/Chip_seq_INPUT.bw\
+	data/raw/signal/Chip_seq_YY1.bw\
+	data/raw/signal/RNA_seq_EV.bw\
+	data/raw/signal/RNA_seq_YY1KD.bw\
+	scripts/utils/customMultiPlot.R\
+	scripts/utils/normalizeHic.R\
+	scripts/analysis/hoxb13Locus.R
+		mkdir -p plots
+		Rscript scripts/analysis/hoxb13Locus.R
