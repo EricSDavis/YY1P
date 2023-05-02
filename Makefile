@@ -6,12 +6,17 @@ objects :=\
 	data/mergedLoopCounts.rds\
 	data/diffLoopCounts.rds\
 	plots/surveyDiffLoops.pdf\
-	plots/hoxb13Locus.pdf
+	plots/hoxb13Locus.pdf\
+	plots/hoxb13Locus_v2.pdf
 
 all: $(objects)
 
 clean:
 	rm -rf $(objects)
+	
+###################################
+## Differential Looping Analysis ##
+###################################
 
 data/mergedLoops.rds:\
 	data/raw/loops/YY1P_22RV1_KO_inter_30_5kbLoops.txt\
@@ -68,6 +73,11 @@ plots/surveyDiffLoops.pdf:\
 		mkdir -p plots
 		Rscript scripts/analysis/surveyDiffLoops.R
 
+
+##############################################
+## Make plot of region of interest (HOXB13) ##
+##############################################
+
 plots/hoxb13Locus.pdf:\
 	data/diffLoopCounts.rds\
 	data/mergedLoopCounts.h5\
@@ -85,3 +95,22 @@ plots/hoxb13Locus.pdf:\
 	scripts/analysis/hoxb13Locus.R
 		mkdir -p plots
 		Rscript scripts/analysis/hoxb13Locus.R
+		
+## Same region but zoomed out
+plots/hoxb13Locus_v2.pdf:\
+	data/diffLoopCounts.rds\
+	data/mergedLoopCounts.h5\
+	data/raw/hic/genotype/YY1P_22RV1_WT_inter_30.hic\
+	data/raw/hic/genotype/YY1P_22RV1_KO_inter_30.hic\
+	data/raw/signal/ATAC_seq_EV.bw\
+	data/raw/signal/ATAC_seq_YY1KD.bw\
+	data/raw/signal/Chip_seq_H3K27ac_.bw\
+	data/raw/signal/Chip_seq_INPUT.bw\
+	data/raw/signal/Chip_seq_YY1.bw\
+	data/raw/signal/RNA_seq_EV.bw\
+	data/raw/signal/RNA_seq_YY1KD.bw\
+	scripts/utils/customMultiPlot.R\
+	scripts/utils/normalizeHic.R\
+	scripts/analysis/hoxb13Locus_v2.R
+		mkdir -p plots
+		Rscript scripts/analysis/hoxb13Locus_v2.R
