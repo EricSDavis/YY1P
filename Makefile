@@ -14,7 +14,8 @@ objects :=\
 	data/diffLoopBedRegions/static_p0.01_lfc0.bed\
 	data/diffLoopBedRegions/gained_p0.01_lfc0.bed\
 	data/diffLoopBedRegions/lost_p0.01_lfc0.bed\
-	plots/yy1InternalEnrichment.pdf
+	plots/yy1InternalEnrichment.pdf\
+	plots/loopNesting.pdf
 
 all: $(objects)
 
@@ -163,6 +164,21 @@ plots/yy1InternalEnrichment.pdf:\
 	scripts/analysis/yy1InternalEnrichment.R
 		mkdir -p plots
 		Rscript scripts/analysis/yy1InternalEnrichment.R
+		
+		
+############################################
+## How are loops nested? Are gained loops ##
+## forming inside lost loops more than    ##
+## expected or vice-versa?                ##
+############################################
+
+## Permutation plots of loop nesting
+plots/loopNesting.pdf:\
+	tables/diffLoopThresh.txt\
+	data/diffLoopCounts.rds\
+	scripts/analysis/loopNesting.R
+		mkdir -p plots
+		Rscript scripts/analysis/loopNesting.R
 
 
 ###################################
